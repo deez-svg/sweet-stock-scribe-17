@@ -5,10 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Lock, Eye, EyeOff } from 'lucide-react';
+import { Lock, Eye, EyeOff, User } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 
 const Login = () => {
+  const [loginId, setLoginId] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -20,7 +21,7 @@ const Login = () => {
 
     // Simulate a brief loading state
     setTimeout(() => {
-      if (password === 'jbs1') {
+      if (loginId === 'jbs1' && password === 'jbs1') {
         toast({
           title: "Login Successful",
           description: "Welcome! Redirecting to dashboard...",
@@ -29,7 +30,7 @@ const Login = () => {
       } else {
         toast({
           title: "Login Failed",
-          description: "Incorrect password. Please try again.",
+          description: "Incorrect login ID or password. Please try again.",
           variant: "destructive"
         });
       }
@@ -45,10 +46,25 @@ const Login = () => {
             <Lock className="h-6 w-6 text-blue-600" />
           </div>
           <CardTitle className="text-2xl font-bold">Login</CardTitle>
-          <p className="text-gray-600 text-sm">Enter your password to access the system</p>
+          <p className="text-gray-600 text-sm">Enter your credentials to access the system</p>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="loginId">Login ID</Label>
+              <div className="relative">
+                <Input
+                  id="loginId"
+                  type="text"
+                  value={loginId}
+                  onChange={(e) => setLoginId(e.target.value)}
+                  placeholder="Enter your login ID"
+                  className="pl-10"
+                  required
+                />
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              </div>
+            </div>
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <div className="relative">
@@ -79,7 +95,7 @@ const Login = () => {
             <Button 
               type="submit" 
               className="w-full" 
-              disabled={isLoading || !password}
+              disabled={isLoading || !loginId || !password}
             >
               {isLoading ? "Logging in..." : "Login"}
             </Button>
