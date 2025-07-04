@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -16,22 +17,22 @@ export const Dashboard = () => {
   ).length;
 
   return (
-    <div>
+    <div className="min-h-screen bg-gray-50">
       <DashboardHeader />
-      <div className="p-6 space-y-6">
+      <div className="p-4 lg:p-6 space-y-4 lg:space-y-6">
         <div className="text-sm text-gray-500">
           Last updated: {new Date().toLocaleString()}
         </div>
 
         {/* Key Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Stock Value</CardTitle>
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">₹{totalValue.toFixed(2)}</div>
+              <div className="text-xl lg:text-2xl font-bold">₹{totalValue.toFixed(2)}</div>
               <p className="text-xs text-muted-foreground">Across all materials</p>
             </CardContent>
           </Card>
@@ -42,7 +43,7 @@ export const Dashboard = () => {
               <AlertTriangle className="h-4 w-4 text-amber-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-amber-600">{lowStockItems.length}</div>
+              <div className="text-xl lg:text-2xl font-bold text-amber-600">{lowStockItems.length}</div>
               <p className="text-xs text-muted-foreground">Items need restocking</p>
             </CardContent>
           </Card>
@@ -53,7 +54,7 @@ export const Dashboard = () => {
               <Package className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-600">{todayProduction}</div>
+              <div className="text-xl lg:text-2xl font-bold text-green-600">{todayProduction}</div>
               <p className="text-xs text-muted-foreground">Products completed</p>
             </CardContent>
           </Card>
@@ -64,17 +65,17 @@ export const Dashboard = () => {
               <ShoppingCart className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{rawMaterials.length}</div>
+              <div className="text-xl lg:text-2xl font-bold">{rawMaterials.length}</div>
               <p className="text-xs text-muted-foreground">Raw materials tracked</p>
             </CardContent>
           </Card>
         </div>
 
         {/* Stock Overview */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 lg:gap-6">
           <Card>
             <CardHeader>
-              <CardTitle>Raw Materials Stock</CardTitle>
+              <CardTitle className="text-lg lg:text-xl">Raw Materials Stock</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -84,8 +85,8 @@ export const Dashboard = () => {
                   
                   return (
                     <div key={material.id} className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="font-medium">{material.name}</span>
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <span className="font-medium text-sm lg:text-base">{material.name}</span>
                         <div className="flex items-center space-x-2">
                           <span className="text-sm text-gray-600">
                             {material.currentStock.toLocaleString()}{material.unit}
@@ -113,26 +114,26 @@ export const Dashboard = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle>Recent Transactions</CardTitle>
+              <CardTitle className="text-lg lg:text-xl">Recent Transactions</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className="space-y-3 lg:space-y-4">
                 {recentTransactions.length > 0 ? (
                   recentTransactions.map((transaction) => {
                     const material = rawMaterials.find(m => m.id === transaction.materialId);
                     return (
-                      <div key={transaction.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        <div>
-                          <p className="font-medium">{material?.name || 'Unknown Material'}</p>
-                          <p className="text-sm text-gray-600">
+                      <div key={transaction.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-gray-50 rounded-lg gap-2">
+                        <div className="flex-1">
+                          <p className="font-medium text-sm lg:text-base">{material?.name || 'Unknown Material'}</p>
+                          <p className="text-xs lg:text-sm text-gray-600">
                             {new Date(transaction.timestamp).toLocaleString()}
                           </p>
                         </div>
-                        <div className="text-right">
-                          <p className={`font-bold ${transaction.quantity > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                        <div className="text-right sm:text-left sm:ml-4">
+                          <p className={`font-bold text-sm lg:text-base ${transaction.quantity > 0 ? 'text-green-600' : 'text-red-600'}`}>
                             {transaction.quantity > 0 ? '+' : ''}{transaction.quantity}{material?.unit}
                           </p>
-                          <Badge variant="outline">
+                          <Badge variant="outline" className="text-xs">
                             {transaction.type}
                           </Badge>
                         </div>
@@ -140,7 +141,7 @@ export const Dashboard = () => {
                     );
                   })
                 ) : (
-                  <p className="text-gray-500 text-center py-4">No recent transactions</p>
+                  <p className="text-gray-500 text-center py-4 text-sm lg:text-base">No recent transactions</p>
                 )}
               </div>
             </CardContent>
@@ -151,19 +152,19 @@ export const Dashboard = () => {
         {lowStockItems.length > 0 && (
           <Card className="border-amber-200 bg-amber-50">
             <CardHeader>
-              <CardTitle className="text-amber-800 flex items-center">
+              <CardTitle className="text-amber-800 flex items-center text-lg lg:text-xl">
                 <AlertTriangle className="mr-2 h-5 w-5" />
                 Low Stock Alerts - Items Need Restocking
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {lowStockItems.map((material) => (
                   <div key={material.id} className="bg-white p-4 rounded-lg border border-amber-200">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <h4 className="font-medium text-amber-900">{material.name}</h4>
-                        <p className="text-sm text-gray-600">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                      <div className="flex-1">
+                        <h4 className="font-medium text-amber-900 text-sm lg:text-base">{material.name}</h4>
+                        <p className="text-xs lg:text-sm text-gray-600">
                           Current: {material.currentStock}{material.unit} | 
                           Min: {material.minStockLevel}{material.unit}
                         </p>
@@ -171,7 +172,7 @@ export const Dashboard = () => {
                           Need to restock: {Math.max(0, material.minStockLevel - material.currentStock)}{material.unit}
                         </p>
                       </div>
-                      <Badge variant="destructive">Restock</Badge>
+                      <Badge variant="destructive" className="self-start sm:self-center">Restock</Badge>
                     </div>
                   </div>
                 ))}

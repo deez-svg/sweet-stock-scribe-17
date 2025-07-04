@@ -20,11 +20,12 @@ export const DashboardHeader = () => {
   };
 
   return (
-    <div className="flex justify-between items-center p-6 bg-white border-b">
-      <h1 className="text-3xl font-bold text-gray-900">Inventory Dashboard</h1>
-      <Button onClick={handleLogout} variant="outline" size="sm">
+    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 lg:p-6 bg-white border-b space-y-3 sm:space-y-0">
+      <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">Inventory Dashboard</h1>
+      <Button onClick={handleLogout} variant="outline" size="sm" className="self-end sm:self-auto">
         <LogOut className="h-4 w-4 mr-2" />
-        Logout
+        <span className="hidden sm:inline">Logout</span>
+        <span className="sm:hidden">Exit</span>
       </Button>
     </div>
   );
